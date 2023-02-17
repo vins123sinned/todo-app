@@ -1,32 +1,39 @@
-import React from 'react'
+import React, { useState } from "react";
 
-import './App.css';
+import TodoList from "./components/TodoList";
+import TodoForm from "./components/TodoForm";
 
-const ToDoList = ({ todos }) => {
-  return (
-    <ul>
-    {todos.map((todo) => <li>{todo}</li>)}
-    </ul>
-  )
-}
+import "./App.css";
 
 function App() {
-  const [value, setValue] = React.useState();
-  const [todos, setTodos] = React.useState([])
+  const [value, setValue] = useState("");
+  const [todos, setTodos] = useState([]);
 
-  function addTodo(todo) {
-    setTodos((oldTodos) => [...oldTodos, todo])
-    setValue("")
-  }
+  const addTodo = (todo) => {
+    if (!todo) {
+      return;
+    }
+    const newTodos = [todo, ...todos];
+
+    setTodos(newTodos);
+    setValue("");
+  };
+
+  const handleSubmit = () => {
+    addTodo(value);
+  };
+
   return (
-    <div>
-      <h1>To do list</h1>
-      <input type="text" placeholder="Add something to do" value={value} onChange={(e) => setValue(e.target.value)}></input>
-      <button onClick={() => addTodo(value)}>Add</button>
-      <ToDoList todos={todos}/>
+    <div className="todoApp">
+      <h1>What do you want to do today?</h1>
+      <TodoForm
+        onChange={(newValue) => setValue(newValue)}
+        onSubmit={handleSubmit}
+        value={value}
+      ></TodoForm>
+      <TodoList todos={todos}></TodoList>
     </div>
-  )
-
+  );
 }
 
 export default App;
