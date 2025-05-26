@@ -5,11 +5,11 @@ import Todo from "./Todo";
 function TodoList(props) {
   return (
     <>
-      {props.todos.map((todo) => (
-        <Todo todo={todo} />
+      {props.todos.map((todo, i) => (
+        <Todo todo={todo} key={i} />
       ))}
     </>
   );
 }
 
-export default TodoList;
+export default React.memo(TodoList);
